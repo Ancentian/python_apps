@@ -23,8 +23,11 @@ class Room(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name 
+class Meta:
+    ordering = ['-updated_at', '-created_at']
+    
+def __str__(self):
+    return self.name 
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
