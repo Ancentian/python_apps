@@ -26,8 +26,8 @@ class Room(models.Model):
     class Meta:
         ordering = ['-updated_at', '-created_at']
     
-def __str__(self):
-    return self.name 
+    def __str__(self):
+        return self.name 
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
