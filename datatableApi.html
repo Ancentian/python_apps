@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Rooms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https:////cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+</head>
+<body>
+
+    <h1>Cool Rooms</h1>
+
+    <div class="container">
+        <table id="rooms-table" class="display">
+            <thead>
+                <tr>
+                    <th>*</th>
+                    <th>Name</th>
+                    <th> Description</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" ></script>
+    <script src="https:////cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            let index = 1;
+            
+            const roomsTable = $('#rooms-table').DataTable({
+                // You can configure DataTable options here
+                "paging": true,       // Enable paging
+                "lengthChange": true, // Show entries per page dropdown
+                "searching": true,    // Enable searching
+                "info": true,         // Show information
+                "ordering": true,     // Enable sorting
+                "autoWidth": true,    // Enable auto width adjustment
+            });
+
+            const getRooms = async () => {
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/api/rooms/');
+                    const rooms = await response.json();
+
+                    rooms.forEach(room => {
+                        roomsTable.row.add([index++, room.name, room.description]).draw(false);
+                    });
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+
+            getRooms();
+        });
+    </script>
+</body>
+</html>
+
